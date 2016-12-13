@@ -61,6 +61,8 @@ def map_format_specifier(type):
         return "%u"
     if type == "long long":
         return "%lld"
+    if type == "float":
+        return "%f"
     else:
         return "%@"
 
