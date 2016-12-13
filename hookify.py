@@ -67,6 +67,15 @@ class ObjcMethod():
         self.line = line.replace(UNKNOWN_TYPE, 'id')
         self.ret_type = self.get_ret_type()
         self.interface = interface
+        self.name = self.get_name()
+        self.full_name = "[%s %s]" %(interface, self.name)
+
+    def get_name(self):
+        splits = self.line.split(')')
+        splits = splits[1].split(':')
+        splits = splits[0].split(';')
+        name = splits[0]
+        return name
 
     def get_ret_type(self):
         splits = self.line[3:].split(')', 1)
@@ -77,9 +86,9 @@ class ObjcMethod():
 
     def hook(self):
         if self.ret_type == "void":
-            print '%s {[logTool logDataFromNSString:@">>>> BEGIN - %s"];%%orig;[logTool logDataFromNSString:@"<<<< END - %s"]; }' %(self.line[:-2], self.interface, self.interface)
+            print '%s {[logTool logDataFromNSString:@">>>> BEGIN - %s"];%%orig;[logTool logDataFromNSString:@"<<<< END - %s"]; }' %(self.line[:-2], self.full_name, self.full_name)
         else:
-            print '%s {[logTool logDataFromNSString:@">>>> BEGIN - %s"];%s ret = %%orig;[logTool logDataFromNSString:[NSString stringWithFormat:@"ret value: %s", ret]];[logTool logDataFromNSString:@"<<<< END - %s"];return ret; }' %(self.line[:-2], self.interface, self.ret_type, map_format_specifier(self.ret_type), self.interface)
+            print '%s {[logTool logDataFromNSString:@">>>> BEGIN - %s"];%s ret = %%orig;[logTool logDataFromNSString:[NSString stringWithFormat:@"ret value: %s", ret]];[logTool logDataFromNSString:@"<<<< END - %s"];return ret; }' %(self.line[:-2], self.full_name, self.ret_type, map_format_specifier(self.ret_type), self.full_name)
 
 
 
