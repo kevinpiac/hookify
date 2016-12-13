@@ -65,6 +65,8 @@ def map_format_specifier(type):
         return "%f"
     if type == "unsigned long long":
         return "%llu"
+    if type == "double":
+        return "%f"
     else:
         return "%@"
 
