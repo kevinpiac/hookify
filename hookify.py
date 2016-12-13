@@ -59,6 +59,8 @@ def map_format_specifier(type):
         return "%d"
     if type in ["BOOL", "_Bool", "bool"]:
         return "%u"
+    if type == "long long":
+        return "%lld"
     else:
         return "%@"
 
@@ -118,7 +120,8 @@ def main(args):
     parser = HeaderParser(filepath)
     print "%hook", parser.interface
     for method in parser.methods:
-        method.hook()
+        if method.name not in ".cxx_destruct":
+            method.hook()
     print "%end"
 
 
