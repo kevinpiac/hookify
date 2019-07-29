@@ -94,9 +94,9 @@ class ObjcMethod():
 
     def hook(self):
         if self.ret_type == "void":
-            print '%s {[logTool logDataFromNSString:@">>>> BEGIN - %s"];%%orig;[logTool logDataFromNSString:@"<<<< END - %s"]; }' %(self.line[:-2], self.full_name, self.full_name)
+            print '%s {[LogTool logDataFromNSString:@">>>> - %s"];%%log; %%orig;[LogTool logDataFromNSString:@"<<<< - %s"]; }' %(self.line[:-2], self.full_name, self.full_name)
         else:
-            print '%s {[logTool logDataFromNSString:@">>>> BEGIN - %s"];%s ret = %%orig;[logTool logDataFromNSString:[NSString stringWithFormat:@"ret value: %s", ret]];[logTool logDataFromNSString:@"<<<< END - %s"];return ret; }' %(self.line[:-2], self.full_name, self.ret_type, map_format_specifier(self.ret_type), self.full_name)
+            print '%s {[LogTool logDataFromNSString:@">>>> - %s"];%%log; %s ret = %%orig;[LogTool logDataFromNSString:[NSString stringWithFormat: @"<<<< - %s ==> ret value: %s", ret]];return ret; }' %(self.line[:-2], self.full_name, self.ret_type, self.full_name, map_format_specifier(self.ret_type))
 
 
 
