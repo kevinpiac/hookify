@@ -1,7 +1,7 @@
 ## Getting started
 
 Hookify is a __serious opinionated alternative__ to [Logify](https://github.com/theos/logos/wiki/logify.pl).
-Like Logify, Hookify ouputs a hooked version of each methods contained in a header file provided by classdump utility but with the following differences :
+Like Logify, Hookify ouputs a hooked version of each method contained in a header file provided by classdump utility but with the following differences :
 - __Hookify works with a custom logs method : `[LogTool logDataFromNSString]`.__
 
  This method allows you to take the control over your logged data. You can choose either to log your data into a file, in the console and/or simply change the log format.
@@ -12,6 +12,44 @@ Hookify logs ```>>>> [ClassName MethodName paramValue1 paramValue2...]``` when a
 
 ### Example output :
 ![Image of Yaktocat](./example-output.png)
+
+
+### Usage
+
+#### Hook an entire directory of dumped headers:
+
+The option `-d (or --dir)` allows you to hook an entire directory of dumped headers. Because huge apps can contains more than 20K header files, hookify works with pattern matching as follow:
+
+__Using pre-made pattern:__
+
+You can use a pre-made regex option `-p (or --pattern)` to filter classes responsible of either Encryption or Networking (and more to come) using `-p crypto` OR  `-p network` options.
+
+
+```sh
+python hookify.py -d ../mydirpath -p network
+# OR
+python hookify.py -d ../mydirpath -p crypto
+```
+
+__Using a custom regex pattern:__
+
+`-r (or --regex)` option allows you to filter classes using your own custom pattern.
+
+
+```sh
+python hookify.py -d ../mydirpath -r "([a-z_0-4]*)"
+```
+
+
+#### Hook an entire class using single header file:
+
+The `-f (or --file)` option allows you to give a single file path to hookify.
+
+
+```sh
+python hookify.py -f ../myfilepath
+```
+
 
 
 ### Getting started :
